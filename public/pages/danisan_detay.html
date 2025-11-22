@@ -2,55 +2,49 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Danışan Profili</title>
-    <link rel="stylesheet" href="../css/danisan_detay.css">
+    <title>Danışan Profili ve Yeni Kayıt</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <link rel="stylesheet" href="../css/yonetici_ekrani.css"> 
+    <link rel="stylesheet" href="../css/danisan_detay.css"> 
+    
 </head>
 <body>
-    <!-- Sidebar -->
-    <aside class="sidebar" id="sidebar">
-        <!-- Logo Bölümü -->
+    
+     <aside class="sidebar" id="sidebar">
         <div class="logo-container">
             <div class="logo">🧠</div>
             <div class="clinic-name">Psiko Panel</div>
         </div>
 
-        <!-- Menü Konteyneri -->
         <div class="menu-container">
-            <!-- Ana Menü -->
             <div class="menu-section-title">ANA MENÜ</div>
             <ul>
                 <li>
-                    <a href="#" class="active" onclick="loadPage('dashboard')">
+                    <a href="#" class="active" onclick="loadPage('Dashboard', event)">
                         <span class="icon">📊</span>
                         <span>Dashboard</span>
                     </a>
                 </li>
             </ul>
 
-            <!-- Randevular -->
             <div class="menu-section-title">RANDEVU YÖNETİMİ</div>
             <ul>
                 <li>
-                    <a href="#" class="active" onclick="loadPage('dashboard')">
+                    <a href="#" onclick="loadPage('RandevuTakvimi', event)">
                         <span class="icon">📅</span>
                         <span>Randevu Takvimi</span>
                     </a>
                 </li>
                 <li>
-                    <a href="#" onclick="loadPage('randevular')">
-                        <span class="icon">📋</span>
-                        <span>Randevular</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="#" onclick="loadPage('randevular')">
+                    <a href="#" onclick="loadPage('RandevuEkleme', event)">
                         <span class="icon">➕</span>
                         <span>Randevu Ekleme</span>
                     </a>
                 </li>
                 <li>
-                    <a href="#" onclick="loadPage('randevular')">
+                    <a href="#" onclick="loadPage('RandevuDuzenle', event)">
                         <span class="icon">🔄</span>
                         <span>Randevu Düzenle / İptal Et</span>
                     </a>
@@ -58,45 +52,42 @@
             </ul>
 
 
-            <!-- Danışan Yönetimi -->
             <div class="menu-section-title">DANIŞAN YÖNETİMİ</div>
             <ul>
                 <li>
-                    <a href="#" onclick="loadPage('danisanlar')">
+                    <a href="#" onclick="loadPage('DanisanListesi', event)">
                         <span class="icon">👥</span>
                         <span>Danışan Listesi</span>
                     </a>
                 </li>
                 <li>
-                    <a href="#" onclick="loadPage('seans-gecmisi')">
+                    <a href="#" onclick="loadPage('DanisanProfili', event)">
                         <span class="icon">📋</span>
                         <span>Danışan Profili</span>
                     </a>
                 </li>
             </ul>
 
-            <!-- Finans -->
             <div class="menu-section-title">ÖDEME VE GELİR YÖNETİMİ</div>
             <ul>
                 <li>
-                    <a href="#" onclick="loadPage('odemeler')">
+                    <a href="#" onclick="loadPage('Odemeler', event)">
                         <span class="icon">💳</span>
                         <span>Ödemeler</span>
                     </a>
                 </li>
                 <li>
-                    <a href="#" onclick="loadPage('gelir-raporlari')">
+                    <a href="#" onclick="loadPage('GelirRaporlari', event)">
                         <span class="icon">💰</span>
                         <span>Gelir Raporları</span>
                     </a>
                 </li>
             </ul>
 
-            <!-- Raporlar -->
             <div class="menu-section-title">RAPORLAR</div>
             <ul>
                 <li>
-                    <a href="#" onclick="loadPage('istatistikler')">
+                    <a href="#" onclick="loadPage('Istatistikler', event)">
                         <span class="icon">📈</span>
                         <span>İstatistikler ve Analizler</span>
                     </a>
@@ -105,18 +96,15 @@
 
         </div>
 
-        <!-- Sidebar Footer -->
         <div class="sidebar-footer">
-            <!-- Kullanıcı Bilgisi -->
             <div class="user-info">
                 <div class="user-avatar">AY</div>
                 <div class="user-details">
-                    <div class="user-name">Ahmet Yılmaz</div>
+                    <div class="user-name" id="user-display-name">Ahmet Yılmaz</div>
                     <div class="user-role">Yönetici</div>
                 </div>
             </div>
             
-            <!-- Çıkış Butonu -->
             <button class="logout-btn" onclick="logout()">
                 <span class="icon">🔚</span>
                 <span>Çıkış Yap</span>
@@ -124,67 +112,45 @@
         </div>
     </aside>
 
-    <div class="container">
-        <h1 id="danisan-isim">Danışan Profili</h1>
 
-        <div class="tabs">
-            <button class="tab active" data-tab="genel">Genel Bilgiler</button>
-            <button class="tab" data-tab="randevu">Randevu Geçmişi</button>
-            <button class="tab" data-tab="notlar">Seans Notları</button>
-            <button class="tab" data-tab="odeme">Ödeme Geçmişi</button>
-        </div>
-
-        <!-- GENEL BİLGİLER -->
-        <div class="tab-content active" id="genel">
-            <h2>Genel Bilgiler</h2>
-            <p><strong>Telefon:</strong> <span id="g-tel"></span></p>
-            <p><strong>Seans Türü:</strong> <span id="g-seans"></span></p>
-        </div>
-
-        <!-- RANDEVU GEÇMİŞİ -->
-        <div class="tab-content" id="randevu">
-            <h2>Randevu Geçmişi</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Tarih</th>
-                        <th>Seans Türü</th>
-                        <th>Notlar</th>
-                        <th>Ücret</th>
-                    </tr>
-                </thead>
-                <tbody id="randevu-body"></tbody>
-            </table>
-        </div>
-
-        <!-- SEANS NOTLARI -->
-        <div class="tab-content" id="notlar">
-            <h2>Seans Notları</h2>
-            <textarea id="seans-not" placeholder="Bu danışana ait notları yazın..."></textarea>
-            <button id="pdf-btn">PDF Olarak Dışa Aktar</button>
-        </div>
-
-        <!-- ÖDEME GEÇMİŞİ -->
-        <div class="tab-content" id="odeme">
-            <h2>Ödeme Geçmişi</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Tarih</th>
-                        <th>Tutar</th>
-                        <th>Durum</th>
-                    </tr>
-                </thead>
-                <tbody id="odeme-body"></tbody>
-            </table>
-        </div>
-
-    </div>
-
-
-    <!-- Mobil Overlay -->
     <div class="mobile-overlay" id="mobileOverlay" onclick="closeMobileSidebar()"></div>
 
-    <script src="../js/danisan_detay.js"></script>
+   <main id="mainContent" class="container">
+    
+    <div class="breadcrumb">Ana Sayfa / Danışan Profili</div>
+
+    <div id="danisan-container">
+        <h2>Yeni Danışan Kaydı Ekleme</h2>
+        
+        <div class="card p-4"> 
+            
+            <form id="danisanEklemeFormu"> 
+                
+                <div class="input-group mb-3">
+                    <label for="hastaAd" class="form-label">Adı Soyadı</label>
+                    <input type="text" id="hastaAd" placeholder="Ad Soyad" required class="form-control"> 
+                </div>
+                
+                <div class="input-group mb-3">
+                    <label for="hastaTel" class="form-label">Telefon Numarası</label>
+                    <input type="text" id="hastaTel" placeholder="Telefon" required class="form-control">
+                </div>
+                
+                <div class="input-group mb-3">
+                    <label for="hastaYas" class="form-label">Yaş</label>
+                    <input type="number" id="hastaYas" placeholder="Yaş" required class="form-control" min="1">
+                </div>
+                
+                <p id="mesajAlani" style="color: red; margin-top: 15px;"></p>
+
+                <button type="submit" id="kaydetButonu" class="btn btn-primary">Danışanı Kaydet</button>
+            </form>
+            
+        </div>
+    </div>
+    </main>
+
+    <script src="../js/yonetici_ekrani.js"></script> 
+    <script src="../js/danisan_detay.js"></script> 
 </body>
 </html>

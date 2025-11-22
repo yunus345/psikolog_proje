@@ -5,52 +5,41 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Psikolog Kliniği Yönetici Paneli</title>
     <link rel="stylesheet" href="../css/yonetici_ekrani.css">
-</head>
+    </head>
 <body>
-    <!-- Sidebar -->
     <aside class="sidebar" id="sidebar">
-        <!-- Logo Bölümü -->
         <div class="logo-container">
             <div class="logo">🧠</div>
             <div class="clinic-name">Psiko Panel</div>
         </div>
 
-        <!-- Menü Konteyneri -->
         <div class="menu-container">
-            <!-- Ana Menü -->
             <div class="menu-section-title">ANA MENÜ</div>
             <ul>
                 <li>
-                    <a href="#" class="active" onclick="loadPage('dashboard')">
+                    <a href="#" class="active" onclick="loadPage('Dashboard', event)">
                         <span class="icon">📊</span>
                         <span>Dashboard</span>
                     </a>
                 </li>
             </ul>
 
-            <!-- Randevular -->
             <div class="menu-section-title">RANDEVU YÖNETİMİ</div>
             <ul>
                 <li>
-                    <a href="#" class="active" onclick="loadPage('dashboard')">
+                    <a href="#" onclick="loadPage('RandevuTakvimi', event)">
                         <span class="icon">📅</span>
                         <span>Randevu Takvimi</span>
                     </a>
                 </li>
                 <li>
-                    <a href="#" onclick="loadPage('randevular')">
-                        <span class="icon">📋</span>
-                        <span>Randevular</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="#" onclick="loadPage('randevular')">
+                    <a href="#" onclick="loadPage('RandevuEkleme', event)">
                         <span class="icon">➕</span>
                         <span>Randevu Ekleme</span>
                     </a>
                 </li>
                 <li>
-                    <a href="#" onclick="loadPage('randevular')">
+                    <a href="#" onclick="loadPage('RandevuDuzenle', event)">
                         <span class="icon">🔄</span>
                         <span>Randevu Düzenle / İptal Et</span>
                     </a>
@@ -58,45 +47,42 @@
             </ul>
 
 
-            <!-- Danışan Yönetimi -->
             <div class="menu-section-title">DANIŞAN YÖNETİMİ</div>
             <ul>
                 <li>
-                    <a href="#" onclick="loadPage('danisanlar')">
+                    <a href="#" onclick="loadPage('DanisanListesi', event)">
                         <span class="icon">👥</span>
                         <span>Danışan Listesi</span>
                     </a>
                 </li>
                 <li>
-                    <a href="#" onclick="loadPage('seans-gecmisi')">
+                    <a href="#" onclick="loadPage('DanisanProfili', event)">
                         <span class="icon">📋</span>
                         <span>Danışan Profili</span>
                     </a>
                 </li>
             </ul>
 
-            <!-- Finans -->
             <div class="menu-section-title">ÖDEME VE GELİR YÖNETİMİ</div>
             <ul>
                 <li>
-                    <a href="#" onclick="loadPage('odemeler')">
+                    <a href="#" onclick="loadPage('Odemeler', event)">
                         <span class="icon">💳</span>
                         <span>Ödemeler</span>
                     </a>
                 </li>
                 <li>
-                    <a href="#" onclick="loadPage('gelir-raporlari')">
+                    <a href="#" onclick="loadPage('GelirRaporlari', event)">
                         <span class="icon">💰</span>
                         <span>Gelir Raporları</span>
                     </a>
                 </li>
             </ul>
 
-            <!-- Raporlar -->
             <div class="menu-section-title">RAPORLAR</div>
             <ul>
                 <li>
-                    <a href="#" onclick="loadPage('istatistikler')">
+                    <a href="#" onclick="loadPage('Istatistikler', event)">
                         <span class="icon">📈</span>
                         <span>İstatistikler ve Analizler</span>
                     </a>
@@ -105,18 +91,15 @@
 
         </div>
 
-        <!-- Sidebar Footer -->
         <div class="sidebar-footer">
-            <!-- Kullanıcı Bilgisi -->
             <div class="user-info">
                 <div class="user-avatar">AY</div>
                 <div class="user-details">
-                    <div class="user-name">Ahmet Yılmaz</div>
+                    <div class="user-name" id="user-display-name">Ahmet Yılmaz</div>
                     <div class="user-role">Yönetici</div>
                 </div>
             </div>
             
-            <!-- Çıkış Butonu -->
             <button class="logout-btn" onclick="logout()">
                 <span class="icon">🔚</span>
                 <span>Çıkış Yap</span>
@@ -124,116 +107,44 @@
         </div>
     </aside>
 
-    <!-- Mobil Overlay -->
     <div class="mobile-overlay" id="mobileOverlay" onclick="closeMobileSidebar()"></div>
 
-    <!-- Ana İçerik -->
     <main id="mainContent">
         <div class="breadcrumb">Ana Sayfa / Dashboard</div>
-
-        <section class="upper-content">
-
-            <!-- Dashboard Kartları -->
-            <div class="dashboard-cards">
-                <div class="card">
-                    <div class="card-header">
-                        <span class="card-title">Bugünkü Randevular</span>
-                        <span class="card-icon">📅</span>
-                    </div>
-                    <div class="card-value">12</div>
-                    <div class="card-footer">↑ 3 yeni randevu</div>
-                </div>
-
-                <div class="card">
-                    <div class="card-header">
-                        <span class="card-title">Bu Ay Gerçekleşen Randevu Sayısı</span>
-                        <span class="card-icon">👥</span>
-                    </div>
-                    <div class="card-value">48</div>
-                    <div class="card-footer">↑ 5 yeni danışan</div>
-                </div>
-
-                <div class="card">
-                    <div class="card-header">
-                        <span class="card-title">Bu Ayın Toplam Geliri</span>
-                        <span class="card-icon">💰</span>
-                    </div>
-                    <div class="card-value">₺45,200</div>
-                    <div class="card-footer">↑ %12 artış</div>
-                </div>
-
-                <div class="card">
-                    <div class="card-header">
-                        <span class="card-title">İptal Oranı</span>
-                        <span class="card-icon">❌</span>
-                    </div>
-                    <div class="card-value">↑ %2 artış</div>
-                </div>
-
-                <div class="card">
-                    <div class="card-header">
-                        <span class="card-title">Bekleyen Ödemeler</span>
-                        <span class="card-icon">⏳</span>
-                    </div>
-                    <div class="card-value">₺8,500</div>
-                    <div class="card-footer class="negative">↓ 3 ödeme bekleniyor</div>
-                </div>
         </section>
-        </div>
-
-        <section class="dashboard-section">
-            <div class="grid-container">
-            <!-- Aylık Randevu Grafiği -->
-            <div class="chart-item">
-                <h2>Aylık Randevu Sayısı</h2>
-                <form id="top-sales-form">
-                    <label for="top-sales-year">Yıl:</label>
-                    <select id="top-sales-year">
-                        <option value="2025">2025</option>
-                        <option value="2024">2024</option>
-                    </select>
-                    <button type="submit">Filtrele</button>
-                </form>
-                <canvas id="aylikRandevu"></canvas>
-            </div>
-
-            <!-- Seans türleri Dağılımı -->
-            <div class="chart-item">
-                <h2>Seans Türlerinin Dağılımı </h2>
-                <form id="top-sales-form">
-                    <label for="top-sales-year">Yıl:</label>
-                    <select id="top-sales-year">
-                        <option value="2025">2025</option>
-                        <option value="2024">2024</option>
-                    </select>
-                    <button type="submit">Filtrele</button>
-                </form>
-                <canvas id="seansDagilimi"></canvas>
-            </div>
-
-            <!-- Aylara Göre Gelir Analizi -->
-            <div class="chart-item">
-                <h2> Aylara Göre Gelir Analizi</h2>
-                <form id="top-sales-form">
-                    <label for="top-sales-year">Yıl:</label>
-                    <select id="top-sales-year">
-                        <option value="2025">2025</option>
-                        <option value="2024">2024</option>
-                    </select>
-                    <button type="submit">Filtrele</button>
-                </form>
-                <canvas id="aylikGelir"></canvas>
-            </div>
-
-            <!-- Gün saat yoğunluk  -->
-            <div class="chart-item">
-                <h2>📊 Gün/Saat Yoğunluk Analizi</h2>
-                <table id="heatmap"></table>
-            </div>
-        </section>
-
 
     </main>
-    <script src="../js/yonetici_ekrani.js"></script>
+    <script>// Sayfa Yükleme Fonksiyonu (Menüye tıklandığında çalışır)
+function loadPage(pageName, event) {
+    if (event) {
+        event.preventDefault(); 
+        event.target.closest('a').classList.add('active'); 
+    }
+    
+    // Yönlendirmeden önce, her sayfa adını dosya adıyla eşleştirip PATH'i belirliyoruz.
+    const pageMap = {
+        'Dashboard': 'yonetici_ekrani.html', 
+        'RandevuTakvimi': 'randevu_takvimi.html',
+        'RandevuEkleme': 'randevu_ekleme.html',
+        'RandevuDuzenle': 'randevu_duzenle.html',
+        'DanisanListesi': 'danisan_listesi.html', // Danışan listesine yönlendir
+        'DanisanProfili': 'danisan_detay.html', 
+        'Odemeler': 'odeme_listesi.html',
+        'GelirRaporlari': 'gelir_raporlama.html',
+        'Istatistikler': 'istatistikler.html'
+    };
+    
+    const targetFile = pageMap[pageName];
+    
+    // Eğer hedef dosya varsa, tarayıcıyı o sayfaya yönlendiriyoruz.
+    // Başlangıçta /public/pages/login.html'de olduğumuz için, 
+    // tüm dosyalar /public/pages/ klasöründedir.
+    if (targetFile) {
+        // 🎯 KRİTİK DÜZELTME: Tarayıcıyı hedef sayfaya yönlendir
+        // Mevcut URL'deki dosya adını hedef dosya adıyla değiştiriyoruz.
+        window.location.href = targetFile;
+    }
+}
+// ... (Logout ve DOMContentLoaded kodları devam eder)</script>
 </body>
 </html>

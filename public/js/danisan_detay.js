@@ -1,67 +1,57 @@
-// Örnek veri (backend bağlanınca fetch ile değiştirilecek)
-const danisanlar = {
-    1: {
-        ad: "Ayşe Yılmaz",
-        tel: "0555 111 22 33",
-        seans: "Bireysel Terapi",
-        randevular: [
-            { tarih: "2025-01-12", tur: "Bireysel", not: "İyi ilerleme", ucret: "400₺" },
-            { tarih: "2025-01-05", tur: "Bireysel", not: "-", ucret: "400₺" }
-        ],
-        odemeler: [
-            { tarih: "2025-01-12", tutar: "400₺", durum: "Ödendi" },
-            { tarih: "2025-01-05", tutar: "400₺", durum: "Bekliyor" }
-        ]
-    }
-};
+document.addEventListener('DOMContentLoaded', () => {
+    // Formu ID ile yakala (Button yerine formu dinlemek daha güvenlidir)
+    const form = document.getElementById('danisanEklemeFormu');
+    const mesajAlani = document.getElementById('mesajAlani');
 
-function getId() {
-    const params = new URLSearchParams(window.location.search);
-    return params.get("id");
-}
+    // Eğer form yoksa veya mesaj alanı yoksa (hatalı yükleme) dur.
+    if (!form || !mesajAlani) {
+        console.warn("Danışan Ekleme Formu veya Mesaj Alanı bulunamadı. JS çalışmıyor.");
+        return; 
+    } 
 
-document.addEventListener("DOMContentLoaded", () => {
-    const id = getId();
-    const data = danisanlar[id];
+    // Form gönderildiğinde (Submit edildiğinde) çalışacak ana fonksiyon
+    form.addEventListener('submit', async (event) => {
+        event.preventDefault(); // Sayfanın yenilenmesini engelle
 
-    document.getElementById("danisan-isim").textContent = data.ad;
-    document.getElementById("g-tel").textContent = data.tel;
-    document.getElementById("g-seans").textContent = data.seans;
+        // Input değerlerini ID'leri ile oku ve boşlukları temizle
+        const hastaAd = document.getElementById('hastaAd')?.value.trim();
+        const hastaTel = document.getElementById('hastaTel')?.value.trim();
+        const hastaYas = document.getElementById('hastaYas')?.value.trim();
 
-    // Randevu geçmişi
-    const rBody = document.getElementById("randevu-body");
-    data.randevular.forEach(r => {
-        rBody.innerHTML += `
-            <tr>
-                <td>${r.tarih}</td>
-                <td>${r.tur}</td>
-                <td>${r.not}</td>
-                <td>${r.ucret}</td>
-            </tr>`;
-    });
+        // Veri kontrolü
+        if (!hastaAd || !hastaTel || !hastaYas) {
+            mesajAlani.textContent = 'Lütfen tüm alanları doldurun.';
+            mesajAlani.style.color = 'red';
+            return;
+        }
 
-    // Ödeme geçmişi
-    const oBody = document.getElementById("odeme-body");
-    data.odemeler.forEach(o => {
-        oBody.innerHTML += `
-            <tr>
-                <td>${o.tarih}</td>
-                <td>${o.tutar}</td>
-                <td>${o.durum}</td>
-            </tr>`;
-    });
+        // Backend'e istek gönder
+        try {
+            const response = await fetch('/api/hastalar/ekle', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ 
+                    hastaAd: hastaAd, hastaTel: hastaTel, hastaYas: hastaYas 
+                }),
+            });
 
-    // TAB GEÇİŞLERİ
-    const tabs = document.querySelectorAll(".tab");
-    const contents = document.querySelectorAll(".tab-content");
+            const data = await response.json();
 
-    tabs.forEach(tab => {
-        tab.addEventListener("click", () => {
-            tabs.forEach(t => t.classList.remove("active"));
-            contents.forEach(c => c.classList.remove("active"));
-
-            tab.classList.add("active");
-            document.getElementById(tab.dataset.tab).classList.add("active");
-        });
+            if (data.success) {
+                // Başarı
+                mesajAlani.textContent = `✅ Danışan ID ${data.hastaId} ile başarıyla kaydedildi.`;
+                mesajAlani.style.color = 'green';
+                form.reset(); 
+            } else {
+                // Hata (DB hatası, zorunlu alan eksikliği vb.)
+                mesajAlani.textContent = `Kayıt Hatası: ${data.message}`;
+                mesajAlani.style.color = 'red';
+            }
+        } catch (error) {
+            // Sunucuya ulaşılamazsa
+            console.error('FETCH HATA:', error);
+            mesajAlani.textContent = 'Sunucuya ulaşılamıyor. Terminali kontrol edin.';
+            mesajAlani.style.color = 'red';
+        }
     });
 });

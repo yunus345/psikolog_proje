@@ -1,26 +1,48 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="tr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Yönetici Girişi</title>
+    <title>Yönetici Giriş</title>
     <link rel="stylesheet" href="../css/yonetici_giris.css">
 </head>
-
 <body>
     <div class="login-form">
-        <img src="../images/logo.jpg" alt="Logo">
+        
+        <div class="logo-images">
+            <img src="../images/logo.jpg" alt="Logo">
+        </div>
+        
         <h2>Yönetici Girişi</h2>
-        <form action="yonetici_ekrani.html" method="get">
-            <input type="text" name="kullanici_adi" placeholder="Kullanıcı Adı">
-            <input type="password" name="sifre" placeholder="Şifre">
-            <button type="submit">Giriş Yap</button>
-        </form>
 
+        <form> 
+            
+            <div class="input-group">
+                <input 
+                    type="text" 
+                    id="kullaniciAdi" 
+                    placeholder="Kullanıcı Adı" 
+                    required 
+                    name="kullaniciAdi"
+                >
+            </div>
+            
+            <div class="input-group">
+                <input 
+                    type="password" 
+                    id="sifre" 
+                    placeholder="Şifre" 
+                    required 
+                    name="sifre"
+                >
+            </div>
+            
+            <p id="hata-mesaji" style="color: red; margin-bottom: 15px;"></p>
+
+            <button type="button" id="girisButonu" name="giris">Giriş Yap</button>
+        </form>
     </div>
 
-    <script src="../js/yonetici_giris.js"></script>
+    <script src="../js/yonetici_giris.js"></script> 
 </body>
-
 </html>
