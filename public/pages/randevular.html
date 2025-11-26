@@ -3,54 +3,45 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Psikolog Kliniği Randevu Ekleme</title>
-    <link rel="stylesheet" href="../css/randevu_ekleme.css">
+    <title>Randevular Listesi</title>
+    <link rel="stylesheet" href="../css/yonetici_ekrani.css"> 
+    <link rel="stylesheet" href="../css/danisan_listesi.css"> 
 </head>
 <body>
-    <!-- Sidebar -->
-    <aside class="sidebar" id="sidebar">
-        <!-- Logo Bölümü -->
+    
+  <aside class="sidebar" id="sidebar">
         <div class="logo-container">
             <div class="logo">🧠</div>
             <div class="clinic-name">Psiko Panel</div>
         </div>
 
-        <!-- Menü Konteyneri -->
         <div class="menu-container">
-            <!-- Ana Menü -->
             <div class="menu-section-title">ANA MENÜ</div>
             <ul>
                 <li>
-                    <a href="#" class="active" onclick="loadPage('dashboard')">
+                    <a href="#" class="active" onclick="loadPage('Dashboard', event)">
                         <span class="icon">📊</span>
                         <span>Dashboard</span>
                     </a>
                 </li>
             </ul>
 
-            <!-- Randevular -->
             <div class="menu-section-title">RANDEVU YÖNETİMİ</div>
             <ul>
                 <li>
-                    <a href="#" class="active" onclick="loadPage('dashboard')">
+                    <a href="#" onclick="loadPage('RandevuTakvimi', event)">
                         <span class="icon">📅</span>
                         <span>Randevu Takvimi</span>
                     </a>
                 </li>
                 <li>
-                    <a href="#" onclick="loadPage('randevular')">
-                        <span class="icon">📋</span>
-                        <span>Randevular</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="#" onclick="loadPage('randevular')">
+                    <a href="#" onclick="loadPage('RandevuEkleme', event)">
                         <span class="icon">➕</span>
                         <span>Randevu Ekleme</span>
                     </a>
                 </li>
                 <li>
-                    <a href="#" onclick="loadPage('randevular')">
+                    <a href="#" onclick="loadPage('RandevuDuzenle', event)">
                         <span class="icon">🔄</span>
                         <span>Randevu Düzenle / İptal Et</span>
                     </a>
@@ -58,45 +49,42 @@
             </ul>
 
 
-            <!-- Danışan Yönetimi -->
             <div class="menu-section-title">DANIŞAN YÖNETİMİ</div>
             <ul>
                 <li>
-                    <a href="#" onclick="loadPage('danisanlar')">
+                    <a href="#" onclick="loadPage('DanisanListesi', event)">
                         <span class="icon">👥</span>
                         <span>Danışan Listesi</span>
                     </a>
                 </li>
                 <li>
-                    <a href="#" onclick="loadPage('seans-gecmisi')">
+                    <a href="#" onclick="loadPage('DanisanProfili', event)">
                         <span class="icon">📋</span>
                         <span>Danışan Profili</span>
                     </a>
                 </li>
             </ul>
 
-            <!-- Finans -->
             <div class="menu-section-title">ÖDEME VE GELİR YÖNETİMİ</div>
             <ul>
                 <li>
-                    <a href="#" onclick="loadPage('odemeler')">
+                    <a href="#" onclick="loadPage('Odemeler', event)">
                         <span class="icon">💳</span>
                         <span>Ödemeler</span>
                     </a>
                 </li>
                 <li>
-                    <a href="#" onclick="loadPage('gelir-raporlari')">
+                    <a href="#" onclick="loadPage('GelirRaporlari', event)">
                         <span class="icon">💰</span>
                         <span>Gelir Raporları</span>
                     </a>
                 </li>
             </ul>
 
-            <!-- Raporlar -->
             <div class="menu-section-title">RAPORLAR</div>
             <ul>
                 <li>
-                    <a href="#" onclick="loadPage('istatistikler')">
+                    <a href="#" onclick="loadPage('Istatistikler', event)">
                         <span class="icon">📈</span>
                         <span>İstatistikler ve Analizler</span>
                     </a>
@@ -105,18 +93,15 @@
 
         </div>
 
-        <!-- Sidebar Footer -->
         <div class="sidebar-footer">
-            <!-- Kullanıcı Bilgisi -->
             <div class="user-info">
                 <div class="user-avatar">AY</div>
                 <div class="user-details">
-                    <div class="user-name">Ahmet Yılmaz</div>
+                    <div class="user-name" id="user-display-name">Ahmet Yılmaz</div>
                     <div class="user-role">Yönetici</div>
                 </div>
             </div>
             
-            <!-- Çıkış Butonu -->
             <button class="logout-btn" onclick="logout()">
                 <span class="icon">🔚</span>
                 <span>Çıkış Yap</span>
@@ -124,44 +109,33 @@
         </div>
     </aside>
 
-    <div class="container">
-
-    <h1>➕ Yeni Randevu Ekle</h1>
-
-    <form id="randevu-ekle-formu">
-
-        <label for="hasta-secim-id">Danışan:</label>
-        <select id="hasta-secim-id" required>
-            <option value="">-- Danışan Seçiniz --</option>
-            <option value="1">Ali Veli (ID: 1)</option>
-            <option value="2">Burak Yılmaz (ID: 2)</option>
-        </select>
-
-        <input type="hidden" id="psikolog-secim-id" value="1"> 
-        
-        <label for="randevu-tarih-saat">Tarih ve Saat:</label>
-        <input type="datetime-local" id="randevu-tarih-saat" required> 
-
-        <label for="hizmet-secim-id">Seans Türü:</label>
-        <select id="hizmet-secim-id" required>
-            <option value="">-- Seçiniz --</option>
-            <option value="1">Bireysel Terapi</option>
-            <option value="2">Çift Terapisi</option>
-            </select>
-
-        <label>Ücret (₺):</label>
-        <input type="number" id="ucret" value="500"> 
-        
-        <p id="randevu-mesaj-alani" style="color: red; margin-top: 15px;"></p>
-
-        <button type="button" id="randevuOluşturButonu">Randevu Oluştur</button>
-
-    </form>
-</div>
-      
-    <!-- Mobil Overlay -->
     <div class="mobile-overlay" id="mobileOverlay" onclick="closeMobileSidebar()"></div>
 
-    <script src="../js/randevu_ekleme.js"></script>
+    <main id="mainContent" class="container">
+        
+        <div class="breadcrumb">Ana Sayfa / Randevular</div>
+
+        <h2>Tüm Randevular</h2>
+
+        <div class="table-responsive">
+            <table class="table table-striped" id="randevu-table">
+                <thead>
+                    <tr>
+                        <th>Danışan Adı</th>
+                        <th>Psikolog Adı</th>
+                        <th>Seans Türü</th>
+                        <th>Tarih</th>
+                        <th>Durum</th>
+                    </tr>
+                </thead>
+                <tbody id="randevu-tablo-govdesi">
+                    </tbody>
+            </table>
+        </div>
+        
+    </main>
+
+    <script src="../js/yonetici_ekrani.js"></script> 
+    <script src="../js/randevu_liste.js"></script> 
 </body>
 </html>

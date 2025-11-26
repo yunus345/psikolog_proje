@@ -4,53 +4,51 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Psikolog Kliniği Randevu Takvimi</title>
-    <link rel="stylesheet" href="../css/randevu_takvimi.css">
+    <link rel="stylesheet" href="../css/yonetici_ekrani.css"> 
+    <link rel="stylesheet" href="../css/randevu_takvimi.css"> 
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"> 
 </head>
 <body>
-    <!-- Sidebar -->
+    
     <aside class="sidebar" id="sidebar">
-        <!-- Logo Bölümü -->
         <div class="logo-container">
             <div class="logo">🧠</div>
             <div class="clinic-name">Psiko Panel</div>
         </div>
 
-        <!-- Menü Konteyneri -->
         <div class="menu-container">
-            <!-- Ana Menü -->
             <div class="menu-section-title">ANA MENÜ</div>
             <ul>
                 <li>
-                    <a href="#" class="active" onclick="loadPage('dashboard')">
+                    <a href="#" class="active" onclick="loadPage('Dashboard', event)">
                         <span class="icon">📊</span>
                         <span>Dashboard</span>
                     </a>
                 </li>
             </ul>
 
-            <!-- Randevular -->
             <div class="menu-section-title">RANDEVU YÖNETİMİ</div>
             <ul>
                 <li>
-                    <a href="#" class="active" onclick="loadPage('dashboard')">
+                    <a href="#" class="active" onclick="loadPage('RandevuTakvimi', event)">
                         <span class="icon">📅</span>
                         <span>Randevu Takvimi</span>
                     </a>
                 </li>
                 <li>
-                    <a href="#" onclick="loadPage('randevular')">
+                    <a href="#" onclick="loadPage('RandevuListesi', event)">
                         <span class="icon">📋</span>
                         <span>Randevular</span>
                     </a>
                 </li>
                 <li>
-                    <a href="#" onclick="loadPage('randevular')">
+                    <a href="#" onclick="loadPage('RandevuEkleme', event)">
                         <span class="icon">➕</span>
                         <span>Randevu Ekleme</span>
                     </a>
                 </li>
                 <li>
-                    <a href="#" onclick="loadPage('randevular')">
+                    <a href="#" onclick="loadPage('RandevuDuzenle', event)">
                         <span class="icon">🔄</span>
                         <span>Randevu Düzenle / İptal Et</span>
                     </a>
@@ -58,65 +56,17 @@
             </ul>
 
 
-            <!-- Danışan Yönetimi -->
-            <div class="menu-section-title">DANIŞAN YÖNETİMİ</div>
-            <ul>
-                <li>
-                    <a href="#" onclick="loadPage('danisanlar')">
-                        <span class="icon">👥</span>
-                        <span>Danışan Listesi</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="#" onclick="loadPage('seans-gecmisi')">
-                        <span class="icon">📋</span>
-                        <span>Danışan Profili</span>
-                    </a>
-                </li>
-            </ul>
+            </div>
 
-            <!-- Finans -->
-            <div class="menu-section-title">ÖDEME VE GELİR YÖNETİMİ</div>
-            <ul>
-                <li>
-                    <a href="#" onclick="loadPage('odemeler')">
-                        <span class="icon">💳</span>
-                        <span>Ödemeler</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="#" onclick="loadPage('gelir-raporlari')">
-                        <span class="icon">💰</span>
-                        <span>Gelir Raporları</span>
-                    </a>
-                </li>
-            </ul>
-
-            <!-- Raporlar -->
-            <div class="menu-section-title">RAPORLAR</div>
-            <ul>
-                <li>
-                    <a href="#" onclick="loadPage('istatistikler')">
-                        <span class="icon">📈</span>
-                        <span>İstatistikler ve Analizler</span>
-                    </a>
-                </li>
-            </ul>
-
-        </div>
-
-        <!-- Sidebar Footer -->
         <div class="sidebar-footer">
-            <!-- Kullanıcı Bilgisi -->
             <div class="user-info">
                 <div class="user-avatar">AY</div>
                 <div class="user-details">
-                    <div class="user-name">Ahmet Yılmaz</div>
+                    <div class="user-name" id="user-display-name">Ahmet Yılmaz</div>
                     <div class="user-role">Yönetici</div>
                 </div>
             </div>
             
-            <!-- Çıkış Butonu -->
             <button class="logout-btn" onclick="logout()">
                 <span class="icon">🔚</span>
                 <span>Çıkış Yap</span>
@@ -124,24 +74,37 @@
         </div>
     </aside>
 
-    <div class="container">
-        <h1>🗓 Randevu Takvimi</h1>
-
-        <div class="calendar-header">
-            <button id="prevDay">← Önceki Gün</button>
-            <span id="currentDate"></span>
-            <button id="nextDay">Sonraki Gün →</button>
-        </div>
-
-        <div id="calendarGrid" class="calendar-grid"></div>
-
-    </div>
-
-
-    <!-- Mobil Overlay -->
     <div class="mobile-overlay" id="mobileOverlay" onclick="closeMobileSidebar()"></div>
 
+   <main id="mainContent" class="ana-icerik-alani"> 
+    
+    <div class="breadcrumb">Ana Sayfa / Randevu Takvimi</div>
+    <h1>🗓 Randevu Takvimi</h1>
+
+    <div class="calendar-header mb-3 d-flex justify-content-between align-items-center">
+        <button id="prevDay" class="btn btn-primary">← Önceki Gün</button>
+        <span id="currentDate" class="h4"></span> 
+        <button id="nextDay" class="btn btn-primary">Sonraki Gün →</button>
+    </div>
+
+    <div class="card p-4 mt-3">
+        
+        <div class="table-responsive">
+            <table class="table table-striped" id="randevu-takvim-tablosu">
+                <thead>
+                    <tr>
+                        <th style="width: 25%;">Saat</th>
+                        <th>Danışan Adı</th>
+                    </tr>
+                </thead>
+                <tbody id="takvim-body">
+                    </tbody>
+            </table>
+        </div>
+    </div>
+</main>
+
+    <script src="../js/yonetici_ekrani.js"></script>
     <script src="../js/randevu_takvimi.js"></script>
 </body>
 </html>
-    

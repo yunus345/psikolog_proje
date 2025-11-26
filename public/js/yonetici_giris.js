@@ -19,6 +19,12 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
+        // Yılın otomatik güncellenmesi (Sadece Login sayfası için)
+    const yearElement = document.getElementById('current-year-login');
+    if (yearElement) {
+        yearElement.textContent = new Date().getFullYear();
+    }
+
         // --- FETCH İSTEĞİ BURAYA GELECEK ---
         // (Buraya kadar sorunsuz geldiğimizden emin olmalıyız)
         console.log("FETCH İSTEĞİ BAŞLATILIYOR..."); 

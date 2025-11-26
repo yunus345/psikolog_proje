@@ -264,3 +264,15 @@ body {
     padding: 6px 12px;
     border-radius: 8px;
 }
+/* Randevu Takviminin Sidebar'dan sonra başlamasını sağlar */
+#mainContent {
+    margin-left: 280px; /* Sidebar'ın genişliği kadar boşluk bırakır */
+    padding: 20px; /* İçerik için boşluk */
+    width: calc(100% - 280px); /* Ekranın geri kalanını kaplar */
+    float: left; /* Sidebar'ın yanına yerleşmesini sağlar */
+}
+
+/* Sayfa içeriğinin yatay kaydırmasını önlemek için (Çok Genişlemeyi Engeller) */
+.table-responsive {
+    overflow-x: auto; 
+}

@@ -9,7 +9,7 @@ body {
     height: 100vh;
     font-family: Arial, sans-serif;
 }
-
+    /* FOOTER*/
 /* Giriş sayfası container */
 .login-container {
     text-align: center;
@@ -39,4 +39,49 @@ body {
 /* Buton hover efekti */
 .button-group button:hover {
     background-color: #00306a;
+}
+
+  #login-footer {
+    position: fixed; 
+    bottom: 0;      
+    left: 0;        
+    width: 100%;    
+    padding: 15px 0; /* Boşluğu azaltıldı */
+    background-color: rgba(32, 32, 32, 0.75); /* Daha az şeffaf siyah */
+    color: #f0f0f0; /* Beyazımsı metin */
+    font-family: sans-serif;
+    z-index: 1000; 
+}
+
+#login-footer .footer-content {
+    max-width: 1000px;
+    margin: 0 auto;
+    display: flex; /* İçeriği esnek hale getir */
+    flex-direction: column; /* İçeriği alt alta sırala */
+    align-items: center; /* Yatayda ortala */
+}
+
+/* Sosyal Medya Linkleri Stili */
+.social-links a,
+.legal-links a {
+    color: #f0f0f0;
+    text-decoration: none;
+    font-size: 0.9em;
+    padding: 0 10px;
+    transition: color 0.3s;
+}
+
+.social-links {
+    margin-bottom: 10px;
+}
+
+/* Ayırıcı Stili */
+.legal-links .seperator {
+    color: #888;
+    font-size: 0.8em;
+}
+
+.legal-links a:hover,
+.social-links a:hover {
+    color: #49a9ea; /* Hover rengi */
 }
