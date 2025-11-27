@@ -5,8 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Danışan Paneli </title>
     <link rel="stylesheet" href="../css/hasta_ekrani.css">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="../js/hasta_ekrani.js" defer></script>
 </head>
 <body>
     <!-- Hamburger Menu -->
@@ -33,34 +31,21 @@
             <div class="menu-section-title">MENÜ</div>
             <ul>
                 <li>
-                    <a href="#" class="active" onclick="showPage('dashboard')">
+                    <a href="hasta_ekrani.html" class="active" onclick="showPage('dashboard')">
                         <span class="icon">🏠</span>
                         <span>Ana Sayfa</span>
                     </a>
                 </li>
                 <li>
-                    <a href="#" onclick="showPage('randevu')">
+                    <a href="hasta_randevular.html" onclick="showPage('randevu')">
                         <span class="icon">📅</span>
-                        <span>Randevu Al</span>
+                        <span>Randevularım</span>
                     </a>
                 </li>
                 <li>
-                    <a href="#" onclick="showPage('seanslar')">
-                        <span class="icon">📋</span>
-                        <span>Geçmiş Seanslar</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="#" onclick="showPage('odemeler')">
+                    <a href="hasta_odeme.html" onclick="showPage('odemeler')">
                         <span class="icon">💳</span>
-                        <span>Ödemeler</span>
-                        <span class="badge">1</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="#" onclick="showPage('profil')">
-                        <span class="icon">⚙</span>
-                        <span>Profilim</span>
+                        <span>Ödemelerim</span>
                     </a>
                 </li>
             </ul>
@@ -74,9 +59,34 @@
         </div>
     </aside>
 
-    <!-- Main Content -->
-    <main id="mainContent">
-        <!-- Dashboard sayfası başlangıçta gösterilecek -->
+     <!-- Main Content -->
+    <main>
+        <div class="navbar">Danışan Paneli</div>
+
+        <div class="dashboard-container">
+            <!-- Yaklaşan Randevular -->
+            <div class="card">
+                <h2>Yaklaşan Randevularım</h2>
+                <div id="upcomingRandevular"></div>
+            </div>
+
+            <!-- Ödeme Durumu -->
+            <div class="card">
+                <h2>Ödeme Durumu</h2>
+                <canvas id="paymentChart" style="max-height: 300px;"></canvas>
+                <table class="table" id="paymentTable">
+                    <thead>
+                        <tr>
+                            <th>Tarih</th>
+                            <th>Tutar</th>
+                            <th>Durum</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- JS ile doldurulacak -->
+                    </tbody>
+                </table>
+            </div>
     </main>
 
     <!-- Randevu Modal -->
@@ -87,6 +97,7 @@
                 <button class="close-btn" onclick="closeModal()">&times;</button>
             </div>
             <div id="randevuDetails"></div>
+            <div class="modal-actions"></div>
             <div style="display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px;">
                 <button class="btn btn-secondary" onclick="closeModal()">İptal</button>
                 <button class="btn btn-success" onclick="confirmAppointment()">✓ Onayla</button>
@@ -94,6 +105,7 @@
         </div>
     </div>
 
-    
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="../js/hasta_ekrani.js"></script>
 </body>
 </html>

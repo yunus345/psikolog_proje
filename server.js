@@ -529,6 +529,47 @@ const sql = `
     }
 });
 
+// server.js dosyasına eklenecek kısım:
+
+// ------------------------------------------------------------------
+// -------------------- 📅 API ROTASI: HASTA YAKLAŞAN RANDEVULAR --------------------
+// ------------------------------------------------------------------
+
+app.get('/api/hasta/randevular/yaklasan', async (req, res) => {
+    // Frontend'den hastanın ID'sini almalıyız (Query veya Session/Header üzerinden)
+    // Şimdilik URL parametresi olarak hastaId'yi alıyoruz: ?hastaId=X
+    const { hastaId } = req.query; 
+
+    if (!hastaId) {
+        return res.status(400).json({ success: false, message: 'Hasta ID gereklidir.' });
+    }
+
+    try {
+        // SQL sorgusu: Hastanın, bugünden sonraki randevularını seans türü ile çeker.
+        const sql = `
+            SELECT 
+                r.randevu_tarih, 
+                s.hizmet_turu AS seansTuru
+            FROM randevu r
+            JOIN hizmet s ON r.hizmet_id = s.hizmet_id
+            WHERE r.hasta_id = ? 
+            AND r.randevu_tarih > NOW() -- Bugünden sonrakileri getir
+            AND r.durum = 'Planlandı'
+            ORDER BY r.randevu_tarih ASC
+            LIMIT 5 -- En yakın 5 randevuyu gösterelim
+        `;
+        const [randevular] = await db.execute(sql, [hastaId]);
+
+        return res.json({ 
+            success: true, 
+            randevular: randevular 
+        });
+
+    } catch (error) {
+        console.error('Hasta Yaklaşan Randevu Hatası:', error);
+        return res.status(500).json({ success: false, message: 'Randevular çekilemedi.' });
+    }
+});
 // ------------------------------------------------------------------
 // -------------------- 🌐 TEMEL ROUTING VE SUNUCU BAŞLATMA (Devam) --------------------
 // ------------------------------------------------------------------

@@ -17,20 +17,7 @@
             <button type="submit">Giriş Yap</button>
         </form>
     </div>
-    <script>
-        function girisYap(event) {
-            event.preventDefault();
-            
-            const ad = document.getElementById('ad').value;
-            const soyad = document.getElementById('soyad').value;
-            const sifre = document.getElementById('sifre').value;
     
-            localStorage.setItem('hastaAd', ad);
-            localStorage.setItem('hastaSoyad', soyad);
-            localStorage.setItem('hastaSifre', sifre);
-    
-            window.location.href = '/hasta_ekrani';
-        }
-    </script>
+    <script src="../js/hasta_giris.js"></script>
 </body>
 </html>
