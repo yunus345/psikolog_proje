@@ -529,9 +529,7 @@ const sql = `
     }
 });
 
-// server.js dosyasına eklenecek kısım:
 
-// ------------------------------------------------------------------
 // -------------------- 📅 API ROTASI: HASTA YAKLAŞAN RANDEVULAR --------------------
 // ------------------------------------------------------------------
 
@@ -570,6 +568,43 @@ app.get('/api/hasta/randevular/yaklasan', async (req, res) => {
         return res.status(500).json({ success: false, message: 'Randevular çekilemedi.' });
     }
 });
+
+// ------------------------------------------------------------------
+// -------------------- 📊 API ROTASI: HASTA ÖDEME GRAFİĞİ --------------------
+// ------------------------------------------------------------------
+
+app.get('/api/hasta/odemeler', async (req, res) => {
+    // Frontend'den hastanın ID'sini almalıyız
+    const { hastaId } = req.query; 
+
+    if (!hastaId) {
+        return res.status(400).json({ success: false, message: 'Hasta ID gereklidir.' });
+    }
+
+    try {
+        const sql = `
+            SELECT 
+                o.odeme_id, o.tutar, o.odeme_durumu,
+                r.randevu_tarih, 
+                h.hasta_ad AS danisanAdi
+            FROM odeme o
+            LEFT JOIN randevu r ON o.randevu_id = r.randevu_id
+            LEFT JOIN hasta h ON r.hasta_id = h.hasta_id
+            WHERE r.hasta_id = ? 
+            AND r.randevu_tarih < NOW() -- 🚨 İSTEĞİNİZ: Sadece geçmiş randevuların ödemelerini getir
+            ORDER BY r.randevu_tarih DESC
+        `;
+        // SQL sorgusunu hastaId ile çalıştır
+        const [odemeler] = await db.execute(sql, [hastaId]);
+
+        return res.json({ success: true, odemeler: odemeler });
+
+    } catch (error) {
+        console.error('Hasta Ödeme Listesi Hatası:', error);
+        return res.status(500).json({ success: false, message: 'Ödeme verileri çekilemedi.' });
+    }
+});
+      
 // ------------------------------------------------------------------
 // -------------------- 🌐 TEMEL ROUTING VE SUNUCU BAŞLATMA (Devam) --------------------
 // ------------------------------------------------------------------

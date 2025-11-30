@@ -1,5 +1,21 @@
 // --- TEMEL YÖNLENDİRME FONKSİYONLARI ---
 
+// loadPage fonksiyonunuzun güncellenmiş hali:
+
+function loadPage(pageName, event) {
+    if (event) {
+        event.preventDefault(); 
+        
+        // ÖNCEKİ AKTİFİ KALDIR
+        const menuLinks = document.querySelectorAll('.sidebar ul li a');
+        menuLinks.forEach(link => link.classList.remove('active'));
+
+        // YENİSİNİ AKTİF YAP
+        event.target.closest('a').classList.add('active'); 
+    }
+    // ... (Geri kalan kodunuz aynı kalmalı)
+}
+
 function loadPage(pageName, event) {
     if (event) {
         event.preventDefault(); 
@@ -369,9 +385,50 @@ function buildYogunlukTablosu(veri) {
     tableEl.innerHTML = html;
 }
 
+// --- SİDEBAR VE MOBİL YÖNETİMİ ---
+
+// Sidebar'ı açıp kapatan fonksiyon (Toggle)
+function toggleSidebar() {
+    const sidebar = document.getElementById('sidebar');
+    const mainContent = document.getElementById('mainContent');
+    sidebar.classList.toggle('collapsed');
+}
+
+// Mobil menü açma/kapama
+function toggleMobileSidebar() {
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('mobileOverlay');
+    const hamburger = document.querySelector('.hamburger-menu');
+    
+    sidebar.classList.toggle('mobile-open');
+    overlay.classList.toggle('active');
+    // Eğer hamburger menü HTML'de yoksa, bu satırı silin
+    if (hamburger) hamburger.classList.toggle('active'); 
+}
+
+// Mobil menüyü kapatan fonksiyon (Overlay'e tıklandığında)
+function closeMobileSidebar() {
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('mobileOverlay');
+    const hamburger = document.querySelector('.hamburger-menu');
+
+    sidebar.classList.remove('mobile-open');
+    overlay.classList.remove('active');
+    if (hamburger) hamburger.classList.remove('active');
+}
+
 // -----------------------------------------------------------
 // 🚀 SAYFA YÜKLENDİĞİNDE ÇALIŞAN KISIM (TÜM MANTIK BURADA BAĞLANIR)
 // -----------------------------------------------------------
+
+// Sidebar'ın CSS'teki animasyonu için kısa gecikme
+setTimeout(() => {
+    // Sadece mobil görünümde değilse opacity ile giriş animasyonunu tetikle
+    if (window.innerWidth > 768) {
+        document.getElementById('sidebar').style.opacity = '1';
+    }
+}, 100);
+
 document.addEventListener('DOMContentLoaded', function() {
     
     // Güvenlik Kontrolü ve İsim Gösterimi (Login sonrası veriler)

@@ -54,16 +54,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     // 2. ÖDEME DURUMU (BACKEND ÇAĞRISI VE GRAFİK)
-    async function loadPaymentsAndChart() {
-        if (!paymentTableBody || !chartCanvas) return;
+   async function loadPaymentsAndChart() {
+    const paymentTableBody = document.querySelector("#paymentTable tbody");
+    const chartCanvas = document.getElementById("paymentChart");
+    const HASTA_ID = 1; // Test ID'si
+
+    if (!paymentTableBody || !chartCanvas) return;
+    
+    try {
+        // Yeni Backend rotasını çağır (Sunucu artık sadece o hastanın geçmiş verisini gönderiyor)
+        const response = await fetch(`/api/hasta/odemeler?hastaId=${HASTA_ID}`); 
+        const data = await response.json();
         
-        try {
-            // NOT: Ödemeleri Backend'e yeni bir rota yazmak yerine, şimdilik Yönetici rotasından tüm ödemeleri çekip Frontend'de filtreliyoruz.
-            const response = await fetch(`/api/odemeler`); 
-            const data = await response.json();
-            
-            // Sadece bu hastaya ait ödemeleri filtrele
-            const patientPayments = data.odemeler ? data.odemeler.filter(o => o.hasta_id == TEST_HASTA_ID) : [];
+        // Frontend'de artık filtreleme yapmıyoruz!
+        const patientPayments = data.odemeler || [];
 
             // Tabloyu doldur
             if (paymentTableBody) {
@@ -112,6 +116,8 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
     
+
+
     // --- BAŞLANGIÇ ÇAĞRILARI ---
     loadUpcomingRandevular();
     loadPaymentsAndChart();
