@@ -604,7 +604,43 @@ app.get('/api/hasta/odemeler', async (req, res) => {
         return res.status(500).json({ success: false, message: 'Ödeme verileri çekilemedi.' });
     }
 });
+
+// server.js dosyasına eklenecek kısım:
+
+// ------------------------------------------------------------------
+// -------------------- 👤 API ROTASI: HASTA TEMEL BİLGİLERİ --------------------
+// ------------------------------------------------------------------
+
+app.get('/api/hasta/bilgiler', async (req, res) => {
+    // Hasta ID'sini almalıyız
+    const { hastaId } = req.query; 
+
+    if (!hastaId) {
+        return res.status(400).json({ success: false, message: 'Hasta ID gereklidir.' });
+    }
+
+    try {
+        // SQL sorgusu: Hastanın sadece adını çeker
+        const sql = `SELECT hasta_ad FROM hasta WHERE hasta_id = ?`;
+        const [result] = await db.execute(sql, [hastaId]);
+
+        if (result.length === 0) {
+             return res.status(404).json({ success: false, message: 'Hasta bulunamadı.' });
+        }
+
+        return res.json({ 
+            success: true, 
+            hastaAdi: result[0].hasta_ad // Hastanın adını döndür
+        });
+
+    } catch (error) {
+        console.error('Hasta Bilgileri Çekme Hatası:', error);
+        return res.status(500).json({ success: false, message: 'Sunucu hatası.' });
+    }
+});
       
+
+        
 // ------------------------------------------------------------------
 // -------------------- 🌐 TEMEL ROUTING VE SUNUCU BAŞLATMA (Devam) --------------------
 // ------------------------------------------------------------------

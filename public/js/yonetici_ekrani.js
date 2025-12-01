@@ -1,4 +1,4 @@
-// --- TEMEL YÖNLENDİRME FONKSİYONLARI ---
+// --- TEMEL YÖNLENDİRME FONKSİYONLARIa ---
 
 // loadPage fonksiyonunuzun güncellenmiş hali:
 
@@ -31,7 +31,6 @@ function loadPage(pageName, event) {
     const pageMap = {
         'Dashboard': 'yonetici_ekrani.html', 
         'RandevuTakvimi': 'randevu_takvimi.html',
-        'RandevuListesi': 'randevular.html', 
         'RandevuEkleme': 'randevu_ekleme.html',
         'RandevuDuzenle': 'randevu_duzenle.html',
         'DanisanListesi': 'danisan_listesi.html',
@@ -430,13 +429,7 @@ setTimeout(() => {
 }, 100);
 
 document.addEventListener('DOMContentLoaded', function() {
-    
-    // Güvenlik Kontrolü ve İsim Gösterimi (Login sonrası veriler)
-    if (localStorage.getItem('doktorId')) {
-        const doktorAd = localStorage.getItem('doktorAd') || 'Yönetici';
-        const userDisplay = document.getElementById('user-display-name'); 
-        if (userDisplay) userDisplay.textContent = doktorAd;
-    } 
+  
     
     const currentYear = new Date().getFullYear();
 

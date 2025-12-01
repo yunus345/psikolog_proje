@@ -115,11 +115,30 @@ document.addEventListener("DOMContentLoaded", () => {
             console.error('Ödeme Verisi Çekilemedi:', error);
         }
     }
-    
+    // Hastanın adını çeken ve Sidebar'ı güncelleyen fonksiyon
+async function loadHastaBilgileri(hastaId) {
+    try {
+        // Backend rotasını çağır
+        const response = await fetch(`/api/hasta/bilgiler?hastaId=${hastaId}`);
+        const data = await response.json();
 
+        if (data.success && data.hastaAdi) {
+            const displayElement = document.getElementById('hastaAdiDisplay');
+            if (displayElement) {
+                // Ekrandaki statik adı, canlı veriyle değiştir
+                displayElement.textContent = data.hastaAdi; 
+                
+                // localStorage'a da kaydedebiliriz (şimdilik opsiyonel)
+                // localStorage.setItem('hastaAdi', data.hastaAdi); 
+            }
+        }
+    } catch (error) {
+        console.error("Hasta Adı Güncellenemedi:", error);
+    }
+}
 
     // --- BAŞLANGIÇ ÇAĞRILARI ---
     loadUpcomingRandevular();
     loadPaymentsAndChart();
-
+    loadHastaBilgileri(TEST_HASTA_ID);
 });
